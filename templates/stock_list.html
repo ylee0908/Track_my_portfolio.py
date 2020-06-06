@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <table style="width:100%">
+            <!-- Display the table column headers -->
+            <tr>
+                <th>Ticker</th>
+                <th>Long name</th>
+                <th>Price</th>
+                <th>Nickname</th>
+                <th>Buy target</th>
+                <th>Sell target</th>
+                <th>Priority</th>
+            </tr>
+
+            <!-- Display the values in the table -->
+            {% for stock in stock_list %}
+            <tr>
+                <!-- First, add the links on the Ticker column -->
+                <td>
+                    <a href="/{{ stock[0] }}">{{ stock[0] }}</a>
+                </td>
+                <!-- Then, add the rest of the columns -->
+                {%for item in stock %}
+                    {% if loop.index > 1 %}
+                        <!-- Price > sell target: Sell! -->
+                        {% if stock[2] > stock[5] %}
+                            <td style="color:red;">
+                        <!-- Price < buy target: Buy! -->
+                        {% elif stock[2] < stock[4] %}
+                            <td style="color:green;">
+                        <!-- Otherwise just display normally -->
+                        {% else %}
+                            <td>
+                        {% endif %}
+
+                        <!-- Print the value and close the tag -->
+                            {{ item }}
+                        </td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
